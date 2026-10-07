@@ -1,0 +1,89 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apk-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      KUNGULA_BUILD: ${{ github.run_number }}
+      HAS_KEY: ${{ secrets.KUNGULA_KEYSTORE_BASE64 != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Typecheck and unit tests
+        run: |
+          npx tsc -b
+          npm test
+
+      - name: Build web app and sync to Android
+        run: |
+          npm run build
+          npx cap sync android
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Optional private release key
+        if: env.HAS_KEY == 'true'
+        run: |
+          echo "${{ secrets.KUNGULA_KEYSTORE_BASE64 }}" | base64 -d > $RUNNER_TEMP/release.keystore
+          echo "KUNGULA_KEYSTORE=$RUNNER_TEMP/release.keystore" >> $GITHUB_ENV
+          echo "KUNGULA_KEYSTORE_PASSWORD=${{ secrets.KUNGULA_KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
+          echo "KUNGULA_KEY_ALIAS=${{ secrets.KUNGULA_KEY_ALIAS }}" >> $GITHUB_ENV
+          echo "KUNGULA_KEY_PASSWORD=${{ secrets.KUNGULA_KEY_PASSWORD }}" >> $GITHUB_ENV
+
+      - name: Build APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon --stacktrace
+
+      - name: Name the APK
+        run: |
+          mkdir -p out
+          cp android/app/build/outputs/apk/release/app-release.apk out/kungula-v1.0.${{ github.run_number }}.apk
+          ls -la out
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kungula-apk-${{ github.run_number }}
+          path: out/*.apk
+
+      - name: Publish to Releases (main branch)
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: Kungula v1.0.${{ github.run_number }}
+          make_latest: true
+          files: out/*.apk
+          body: |
+            Android APK for Kungula, built from ${{ github.sha }}.
+            **Install:** download `kungula-v1.0.${{ github.run_number }}.apk` on your Android phone, open it, and allow "Install unknown apps" for your browser or Files app when asked.
+            Updates install over the previous version and keep your data.

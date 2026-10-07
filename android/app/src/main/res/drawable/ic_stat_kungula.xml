@@ -1,0 +1,7 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
+    <!-- sprout over a field: white silhouette for the status bar -->
+    <path android:fillColor="#FFFFFFFF" android:pathData="M11.2,13 L11.2,7.2 C9.4,6.4 8.2,6.6 7,5.4 C8.9,4.9 10.5,5.4 11.2,6.4 L11.2,5.6 C11.6,4.3 13.2,3.6 16.2,3.6 C15.2,5.4 13.8,6.1 12.8,6.2 L12.8,13 Z"/>
+    <path android:fillColor="#FFFFFFFF" android:pathData="M2,17 Q12,10 22,17 L22,19 Q12,13 2,19 Z"/>
+    <path android:fillColor="#FFFFFFFF" android:pathData="M5,21 Q12,16.5 19,21 L17.6,22.4 Q12,19 6.4,22.4 Z"/>
+</vector>
