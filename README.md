@@ -32,7 +32,18 @@ Requires Android 7.0 (API 24) or newer.
 | **Community** | Groups, posts with photos, replies with Jjajja-suggested answers, events, Champions |
 | **Settings** | Language, larger text, voice, consent toggles, backup/restore, delete data, optional AI key |
 
-### Honest limits of v1 (and what comes next)
+### New in 1.1
+
+- **New look** with light, dark and "like my phone" themes; illustrated farm scenes that follow the time of day (night sky in dark mode).
+- **Opening animation** (a sprouting plant, hatching chick, grazing cow or sunrise) each time the app opens.
+- **Grow your plant:** every record, plot, scan, lesson or review waters the farmer's plant with a watering-can animation. XP, 8 growth levels, daily streaks and 10 badges. Both can be switched off in Settings.
+- **Scan reads photos:** on-device colour analysis finds yellowing, brown/dead tissue, orange rust powder, white mould, purple colouring, spots, streaks and mosaic; highlights them on the photo; pre-ticks the matching signs; warns about dark or blurry photos. Camera permission errors are explained. Uses the newer Capacitor camera API.
+- **Roles:** sign up as Farmer, Investor or Learner (any combination). Navigation and Home change with the role.
+- **Profiles:** photo, contacts (phone, WhatsApp, email), bio, farm details, stats, level and badges; share profile.
+- **Kungula Invest:** verified-farm marketplace, public farmer profiles with verification checklist (ID, land documents, GPS boundary, animal count, LC1 reference, mobile money name, photos), trust score, star ratings and "genuine" reviews, follow farms, update timelines, crop and livestock opportunities with bad/expected/good-season projections, invest flow that is blocked until a farm is verified, portfolio with your animals' live (demo) heart rate and temperature, crop greenness chart. Farmers can request a verification visit, list their farm, and post photo updates.
+- **Farming library** for non-farmers: guides by topic including how farm investing works, risks and verification, plus the disease guide.
+
+### Honest limits of 1.x (and what comes next)
 
 - **No server yet.** Everything is stored on the phone (offline-first). Community posts, listings and Co-op data stay on the device until the Kungula backend (PostgreSQL/PostGIS + sync) is built.
 - **Sample data.** Market prices come from a seasonal model; dealers, buyers, Champions and finance partners are clearly marked *demo*. Orders, payments and loan applications are simulated — no money moves.

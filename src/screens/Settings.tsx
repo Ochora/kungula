@@ -47,7 +47,20 @@ export default function SettingsPage() {
           <Toggle on={profile.isChampion} onChange={(v) => updateProfile({ isChampion: v })} label="I am a Kungula Champion" hint="Shows Trace and Co-op tools on the home screen." />
         </div>
 
-        <div className="section-title">Display & voice</div>
+        <div className="section-title">Look</div>
+        <div className="grid3">
+          {([['system', '📱', 'Like my phone'], ['light', '☀️', 'Light'], ['dark', '🌙', 'Dark']] as const).map(([k, i, l]) => (
+            <button key={k} className={'tile' + ((settings.theme ?? 'system') === k ? ' on' : '')} onClick={() => setSettings({ theme: k })}><span className="emoji">{i}</span>{l}</button>
+          ))}
+        </div>
+
+        <div className="section-title">Fun & rewards</div>
+        <div className="card">
+          <Toggle on={settings.intro ?? true} onChange={(v) => setSettings({ intro: v })} label="Opening animation" hint="A plant or animal greets you each time you open Kungula." />
+          <Toggle on={settings.gamify ?? true} onChange={(v) => setSettings({ gamify: v })} label="Grow my plant" hint="Every record waters your plant. Earn XP, levels, streaks and badges." />
+        </div>
+
+        <div className="section-title">Text & voice</div>
         <div className="card">
           <Toggle on={settings.largeText} onChange={(v) => setSettings({ largeText: v })} label="Larger text" />
           <Toggle on={settings.voiceReplies} onChange={(v) => setSettings({ voiceReplies: v })} label="Jjajja reads answers aloud" />

@@ -68,7 +68,7 @@ function Plots() {
               <b>{p.name}</b>
               <div className="small muted">{subjectName(p.crop)}{p.variety ? ` · ${p.variety}` : ''} · {p.areaAcres ? `${num(p.areaAcres, 2)} acres (GPS)` : p.manualAcres ? `${num(p.manualAcres, 2)} acres` : 'size not set'}</div>
             </div>
-            {p.boundary.length >= 3 ? <span className="badge">Mapped</span> : <MapPin size={18} color="#9aa59d" />}
+            {p.boundary.length >= 3 ? <span className="badge">Mapped</span> : <MapPin size={18} style={{ color: 'var(--muted)' }} />}
           </Link>
         ))}
       </div>
@@ -410,7 +410,7 @@ function Reminders() {
           {sorted.map((r) => (
             <li key={r.id} style={{ opacity: r.done ? 0.55 : 1 }}>
               <button className="icon-btn" onClick={() => { upsert('reminders', { ...r, done: !r.done }); if (!r.done) cancelReminder(r.notifId); }}>
-                {r.done ? <CheckCircle2 color="#1F6B3A" /> : <Circle color="#5d6b61" />}
+                {r.done ? <CheckCircle2 className="tint" /> : <Circle style={{ color: 'var(--muted)' }} />}
               </button>
               <div className="grow">
                 <div style={{ fontWeight: 600, textDecoration: r.done ? 'line-through' : 'none' }}>{r.title}</div>

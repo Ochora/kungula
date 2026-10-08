@@ -58,7 +58,7 @@ export default function Finance() {
         )}
 
         <div className="card mt">
-          <div className="row">{settings.consentLenders ? <Unlock color="#1F6B3A" /> : <Lock color="#5d6b61" />}<h2 className="grow">Share with lenders</h2></div>
+          <div className="row">{settings.consentLenders ? <Unlock className="tint" /> : <Lock style={{ color: 'var(--muted)' }} />}<h2 className="grow">Share with lenders</h2></div>
           <Toggle on={settings.consentLenders} onChange={(v) => setSettings({ consentLenders: v })}
             label={settings.consentLenders ? 'Lenders you apply to can see your score and records' : 'Your score is private'}
             hint="You can switch this off any time. Kungula records every consent." />
@@ -170,7 +170,7 @@ function ApplySheet({ product, score, onClose }: { product?: FinanceProduct; sco
             </>
           )}
           <label className="row mt small" style={{ cursor: 'pointer' }}>
-            <input type="checkbox" checked={consent} onChange={(e) => setSettings({ consentLenders: e.target.checked })} style={{ width: 22, height: 22, accentColor: '#1F6B3A' }} />
+            <input type="checkbox" checked={consent} onChange={(e) => setSettings({ consentLenders: e.target.checked })} style={{ width: 22, height: 22, accentColor: 'var(--green)' }} />
             I agree to share my Kungula score ({score}) and farm records with this partner.
           </label>
           <button className="btn block mt2" disabled={!consent || (isLoan && (!a || a > product.maxAmount || !purpose))}

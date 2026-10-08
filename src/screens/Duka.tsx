@@ -63,7 +63,7 @@ export default function Duka() {
         <div className="chips mt" style={{ flexWrap: 'nowrap', overflowX: 'auto', paddingBottom: 4 }}>
           {CATS.map(([k, l]) => <button key={k} className={'chip' + (cat === k ? ' on' : '')} onClick={() => setCat(k)}>{l}</button>)}
         </div>
-        <div className="alert mt"><span className="a-ico"><ShieldCheck color="#1F6B3A" /></span><div><b>Verified dealers only</b><span className="small">Every dealer is checked for a trading licence, URA TIN and MAAIF registration. Only registered products are listed.</span></div></div>
+        <div className="alert mt"><span className="a-ico"><ShieldCheck className="tint" /></span><div><b>Verified dealers only</b><span className="small">Every dealer is checked for a trading licence, URA TIN and MAAIF registration. Only registered products are listed.</span></div></div>
         <div className="stack mt">
           {list.map((p) => {
             const ch = cheapest(p); const d = dealerById(ch.dealerId);
@@ -124,7 +124,7 @@ function ProductDetail({ p, onAdd }: { p: Product; onAdd: (dealerId: string) => 
               <li key={dId}>
                 <div className="grow">
                   <b>{d.name}</b> {i === 0 && <span className="badge gold">Best price</span>}
-                  <div className="small muted"><Star size={12} fill="#F2A900" color="#F2A900" /> {d.rating} · {d.district} · {d.distanceKm} km</div>
+                  <div className="small muted"><Star size={12} fill="currentColor" style={{ color: 'var(--gold)' }} /> {d.rating} · {d.district} · {d.distanceKm} km</div>
                 </div>
                 <div style={{ textAlign: 'right' }}><b>{ugx(price)}</b><br /><button className="btn sm" onClick={() => onAdd(dId)}>Add</button></div>
               </li>

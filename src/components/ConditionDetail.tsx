@@ -51,7 +51,7 @@ export default function ConditionDetail({ c, hideUrgency }: { c: Condition; hide
                       const ch = cheapest(p); const d = dealerById(ch.dealerId);
                       return (
                         <Link key={p.id} to={`/duka?product=${p.id}`} className="row small" style={{ textDecoration: 'none', color: 'inherit', padding: '6px 0' }}>
-                          <ShoppingCart size={18} color="#1F6B3A" />
+                          <ShoppingCart size={18} className="tint" />
                           <span className="grow">{p.name} · from {ugx(ch.price)} at {d?.name} ({d?.distanceKm} km)</span>
                         </Link>
                       );

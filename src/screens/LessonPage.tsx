@@ -13,6 +13,7 @@ export default function LessonPage() {
   const profile = useStore((s) => s.profile)!;
   const progress = useStore((s) => s.lessons);
   const set = useStore((s) => s.set);
+  const reward = useStore((s) => s.reward);
   const [page, setPage] = useState(0); // 0..sections-1, then quiz
   const [answers, setAnswers] = useState<number[]>([]);
   const [submitted, setSubmitted] = useState(false);
@@ -28,6 +29,7 @@ export default function LessonPage() {
     if (passed) {
       const others = progress.filter((p) => p.lessonId !== l.id);
       set({ lessons: [...others, { lessonId: l.id, completedAt: prev?.completedAt ?? Date.now(), score: Math.max(score, prev?.score ?? 0) }] });
+      if (!prev?.completedAt) reward('lessons');
     }
   };
 
@@ -87,7 +89,7 @@ export default function LessonPage() {
               ))}
             </div>
             {passed ? (
-              <div className="card mt2 center" style={{ border: '3px double var(--gold)', background: 'var(--cream)', color: '#16261C' }}>
+              <div className="card mt2 center" style={{ border: '3px double var(--gold)', background: '#fbf6ea', color: '#16261C' }}>
                 <div className="row" style={{ justifyContent: 'center' }}><Logo size={44} /><Award size={36} color="#F2A900" /></div>
                 <div className="tiny" style={{ letterSpacing: '.15em', textTransform: 'uppercase', marginTop: 8 }}>Certificate of completion</div>
                 <div className="display" style={{ fontSize: '1.4rem', margin: '6px 0' }}>{profile.name}</div>

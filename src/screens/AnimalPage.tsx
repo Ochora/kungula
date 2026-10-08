@@ -86,9 +86,9 @@ export default function AnimalPage() {
         </div>
 
         <div className="grid3 mt">
-          <button className="tile" onClick={() => setVacOpen(true)}><Syringe size={26} color="#1F6B3A" />Vaccinate</button>
-          {gest ? <button className="tile" onClick={() => setBreedOpen(true)}><Baby size={26} color="#1F6B3A" />Breeding</button> : <Link to={`/scan?subject=${animal.kind}`} className="tile"><ScanLine size={26} color="#1F6B3A" />Health check</Link>}
-          <button className="tile" onClick={() => setRec(true)}><Mic size={26} color="#1F6B3A" />Record</button>
+          <button className="tile" onClick={() => setVacOpen(true)}><Syringe size={26} className="tint" />Vaccinate</button>
+          {gest ? <button className="tile" onClick={() => setBreedOpen(true)}><Baby size={26} className="tint" />Breeding</button> : <Link to={`/scan?subject=${animal.kind}`} className="tile"><ScanLine size={26} className="tint" />Health check</Link>}
+          <button className="tile" onClick={() => setRec(true)}><Mic size={26} className="tint" />Record</button>
         </div>
 
         <div className="card mt">

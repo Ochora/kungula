@@ -2,6 +2,8 @@ export type Lang = 'en' | 'lg' | 'sw';
 
 export type LatLng = { lat: number; lng: number };
 
+export type Role = 'farmer' | 'investor' | 'learner';
+
 export interface Profile {
   name: string;
   phone: string;
@@ -12,6 +14,61 @@ export interface Profile {
   isChampion: boolean;
   location?: LatLng;
   createdAt: number;
+  roles?: Role[]; // missing = ['farmer'] (v1 profiles)
+  photo?: string; // data URL
+  email?: string;
+  whatsapp?: string;
+  bio?: string;
+  farmName?: string;
+  yearsFarming?: number;
+  farmAcres?: number;
+  gender?: string;
+  interests?: string[]; // investor interests: crop/animal ids
+  verification?: 'none' | 'requested' | 'scheduled' | 'verified';
+  verificationRequestedAt?: number;
+  seekingInvestment?: boolean;
+  investmentPitch?: string;
+  investmentNeed?: number;
+}
+
+export interface GameState {
+  xp: number;
+  streak: number;
+  lastDay?: string; // yyyy-mm-dd of last activity
+  badges: string[];
+  waterings: number;
+}
+
+export interface RewardEvent { id: string; xp: number; label: string; kind: 'water' | 'grow' | 'badge' | 'level'; badge?: string; at: number }
+
+export interface Investment {
+  id: string;
+  farmId: string;
+  opportunityId: string;
+  units: number;
+  amount: number;
+  createdAt: number;
+  status: 'pending-verification' | 'active' | 'harvested' | 'paid-out';
+}
+
+export interface Review {
+  id: string;
+  farmId: string;
+  author: string;
+  stars: number;
+  text: string;
+  genuine: boolean; // "I believe this farmer is genuine"
+  at: number;
+  mine?: boolean;
+}
+
+export interface FarmUpdate {
+  id: string;
+  farmId: string; // 'me' for the user's own farm
+  text: string;
+  photo?: string;
+  at: number;
+  kind: 'update' | 'harvest' | 'health' | 'verification';
 }
 
 export interface Plot {
@@ -85,6 +142,7 @@ export interface ScanRecord {
   symptoms: string[];
   results: { conditionId: string; confidence: number }[];
   aiText?: string; // optional online AI opinion
+  vision?: { health: number; notes: string[]; auto: string[]; overlay?: string };
   followUpDone?: boolean;
   plotId?: string;
 }
@@ -212,6 +270,9 @@ export interface Settings {
   aiKey?: string;
   aiModel?: string;
   largeText: boolean;
+  theme?: 'system' | 'light' | 'dark';
+  gamify?: boolean; // rewards + animations (default on)
+  intro?: boolean; // opening animation (default on)
 }
 
 export interface WeatherCache {

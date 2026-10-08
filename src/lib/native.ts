@@ -11,13 +11,70 @@ import type { LatLng } from './types';
 
 export const isNative = () => Capacitor.isNativePlatform();
 
+export class PhotoError extends Error {}
+
+async function toDataUrl(path: string): Promise<string> {
+  const r = await fetch(path);
+  const b = await r.blob();
+  return new Promise((resolve, reject) => {
+    const fr = new FileReader();
+    fr.onload = () => resolve(fr.result as string);
+    fr.onerror = () => reject(new PhotoError('Could not read the photo.'));
+    fr.readAsDataURL(b);
+  });
+}
+
+const isCancel = (e: unknown) => /cancel|canceled|cancelled|no image|user denied/i.test(String((e as Error)?.message ?? e));
+
+/**
+ * Take or pick a photo. Returns a data URL, undefined if the farmer cancelled,
+ * or throws PhotoError with a message the farmer can act on.
+ */
 export async function takePhoto(source: 'camera' | 'gallery' = 'camera'): Promise<string | undefined> {
   if (isNative()) {
-    const p = await Camera.getPhoto({
-      quality: 70, width: 1024, resultType: CameraResultType.DataUrl, correctOrientation: true,
-      source: source === 'camera' ? CameraSource.Camera : CameraSource.Photos,
-    });
-    return p.dataUrl;
+    // 1. Permission — explain clearly if refused
+    try {
+      const want = source === 'camera' ? 'camera' : 'photos';
+      let perm = await Camera.checkPermissions();
+      if (perm[want] !== 'granted' && perm[want] !== 'limited') perm = await Camera.requestPermissions({ permissions: [want] });
+      if (perm[want] === 'denied') {
+        throw new PhotoError(source === 'camera'
+          ? 'Camera permission is off. Open phone Settings → Apps → Kungula → Permissions and allow Camera.'
+          : 'Photo permission is off. Open phone Settings → Apps → Kungula → Permissions and allow Photos.');
+      }
+    } catch (e) {
+      if (e instanceof PhotoError) throw e;
+      // some devices don't need runtime permission for the photo picker — continue
+    }
+    // 2. New camera API (Capacitor camera 8.1+), with fallback to the older one
+    try {
+      if (source === 'camera') {
+        const r = await Camera.takePhoto({ quality: 75, targetWidth: 1280, targetHeight: 1280, correctOrientation: true });
+        const path = r.webPath ?? (r.uri ? Capacitor.convertFileSrc(r.uri) : undefined);
+        if (path) return await toDataUrl(path);
+        if (r.thumbnail) return r.thumbnail.startsWith('data:') ? r.thumbnail : `data:image/jpeg;base64,${r.thumbnail}`;
+      } else {
+        const r = await Camera.chooseFromGallery({ quality: 75, targetWidth: 1280, allowMultipleSelection: false, limit: 1 } as never);
+        const m = r.results?.[0];
+        if (!m) return undefined;
+        const path = m.webPath ?? (m.uri ? Capacitor.convertFileSrc(m.uri) : undefined);
+        if (path) return await toDataUrl(path);
+        if (m.thumbnail) return m.thumbnail.startsWith('data:') ? m.thumbnail : `data:image/jpeg;base64,${m.thumbnail}`;
+      }
+    } catch (e) {
+      if (isCancel(e)) return undefined;
+      // fall through to the legacy API
+    }
+    try {
+      const p = await Camera.getPhoto({
+        quality: 70, width: 1280, resultType: CameraResultType.DataUrl, correctOrientation: true,
+        source: source === 'camera' ? CameraSource.Camera : CameraSource.Photos,
+      });
+      return p.dataUrl;
+    } catch (e) {
+      if (isCancel(e)) return undefined;
+      throw new PhotoError('The camera could not open. Close other camera apps and try again, or choose a photo from the gallery.');
+    }
   }
   // Browser fallback: file picker (uses phone camera on mobile browsers)
   return new Promise((resolve) => {

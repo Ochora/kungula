@@ -192,7 +192,7 @@ function Buyers() {
   const TYPE: Record<string, string> = { trader: '🧑‍💼 Trader', processor: '🏭 Processor', supermarket: '🏬 Supermarket', exporter: '🚢 Exporter', institution: '🏛️ Institution' };
   return (
     <>
-      <label className="row small"><input type="checkbox" checked={all} onChange={(e) => setAll(e.target.checked)} style={{ width: 20, height: 20, accentColor: '#1F6B3A' }} /> Show buyers for all crops</label>
+      <label className="row small"><input type="checkbox" checked={all} onChange={(e) => setAll(e.target.checked)} style={{ width: 20, height: 20, accentColor: 'var(--green)' }} /> Show buyers for all crops</label>
       {!list.length && <Empty emoji="🔍" title="No buyers for your crops yet" />}
       <div className="stack mt">
         {list.map((b) => (

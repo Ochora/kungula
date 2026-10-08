@@ -133,8 +133,8 @@ function People() {
           <div key={c.phone} className="card row">
             <div className="avatar">🧑‍🌾</div>
             <div className="grow"><b>{c.name}</b><div className="small muted">{c.parish} · {c.crops}</div></div>
-            <button className="icon-btn" aria-label="Call" onClick={() => callNumber(c.phone)}><Phone size={20} color="#1F6B3A" /></button>
-            <button className="icon-btn" aria-label="WhatsApp" onClick={() => whatsapp(c.phone)}><MessageCircle size={20} color="#1F6B3A" /></button>
+            <button className="icon-btn" aria-label="Call" onClick={() => callNumber(c.phone)}><Phone size={20} className="tint" /></button>
+            <button className="icon-btn" aria-label="WhatsApp" onClick={() => whatsapp(c.phone)}><MessageCircle size={20} className="tint" /></button>
           </div>
         ))}
       </div>

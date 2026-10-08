@@ -48,9 +48,9 @@ export default function PlotPage() {
         </div>
 
         <div className="grid3 mt">
-          <Link to={`/farm/map/${plot.id}`} className="tile"><MapPin size={26} color="#1F6B3A" />{plot.boundary.length >= 3 ? 'Re-map' : 'Map plot'}</Link>
-          <Link to={`/scan?subject=${plot.crop}`} className="tile"><ScanLine size={26} color="#1F6B3A" />Scan</Link>
-          <button className="tile" onClick={() => setRec(true)}><Mic size={26} color="#1F6B3A" />Record</button>
+          <Link to={`/farm/map/${plot.id}`} className="tile"><MapPin size={26} className="tint" />{plot.boundary.length >= 3 ? 'Re-map' : 'Map plot'}</Link>
+          <Link to={`/scan?subject=${plot.crop}`} className="tile"><ScanLine size={26} className="tint" />Scan</Link>
+          <button className="tile" onClick={() => setRec(true)}><Mic size={26} className="tint" />Record</button>
         </div>
 
         <div className="card mt">

@@ -157,7 +157,7 @@ function TraceForm({ open, onClose, onSaved }: { open: boolean; onClose: () => v
         </div>
       </label>
       <label className="row mt small" style={{ cursor: 'pointer' }}>
-        <input type="checkbox" checked={f.consent} onChange={(e) => u({ consent: e.target.checked })} style={{ width: 22, height: 22, accentColor: '#1F6B3A' }} />
+        <input type="checkbox" checked={f.consent} onChange={(e) => u({ consent: e.target.checked })} style={{ width: 22, height: 22, accentColor: 'var(--green)' }} />
         The farmer agrees that this plot map and details can be shared with their co-operative and coffee exporter for EU due diligence.
       </label>
       <button className="btn block mt2" disabled={!f.farmerName.trim()} onClick={save}>Save and map the plot</button>
@@ -196,7 +196,7 @@ function Lots() {
       <div className="stack">
         {lots.map((l) => (
           <button key={l.id} className="card row" style={{ width: '100%', textAlign: 'left' }} onClick={() => setShow(l.id)}>
-            <QrCode size={32} color="#1F6B3A" />
+            <QrCode size={32} className="tint" />
             <div className="grow"><b>{l.code}</b><div className="small muted">{num(l.weightKg)} kg · {l.plotIds.length} farms · {fmtDate(l.createdAt)}</div></div>
           </button>
         ))}
@@ -210,7 +210,7 @@ function Lots() {
         <div className="card">
           {ready.map((p) => (
             <label key={p.id} className="row" style={{ padding: '8px 0', cursor: 'pointer' }}>
-              <input type="checkbox" checked={sel.includes(p.id)} onChange={(e) => setSel(e.target.checked ? [...sel, p.id] : sel.filter((x) => x !== p.id))} style={{ width: 22, height: 22, accentColor: '#1F6B3A' }} />
+              <input type="checkbox" checked={sel.includes(p.id)} onChange={(e) => setSel(e.target.checked ? [...sel, p.id] : sel.filter((x) => x !== p.id))} style={{ width: 22, height: 22, accentColor: 'var(--green)' }} />
               <span className="grow">{p.farmerName} · {p.plotName}</span>
             </label>
           ))}

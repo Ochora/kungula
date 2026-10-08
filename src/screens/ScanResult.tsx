@@ -45,7 +45,13 @@ export default function ScanResult({ online }: { online: boolean }) {
         </>
       } />
       <main className="page">
-        {scan.photo && <div className="photo-frame mb"><img src={scan.photo} alt="Scan" /></div>}
+        {scan.photo && <div className="photo-frame mb"><img src={scan.photo} alt="Scan" />{scan.vision?.overlay && <img className="overlay" src={scan.vision.overlay} alt="Affected areas" />}</div>}
+        {scan.vision && (
+          <div className="card mb">
+            <div className="row between"><b>📷 Photo check</b>{!['poultry', 'cattle', 'goats', 'pigs'].includes(scan.subject) && <span className={'badge ' + (scan.vision.health >= 80 ? '' : scan.vision.health >= 55 ? 'gold' : 'red')}>{scan.vision.health}% healthy</span>}</div>
+            <ul className="small" style={{ margin: '6px 0 0', paddingLeft: 18 }}>{scan.vision.notes.map((n) => <li key={n}>{n}</li>)}</ul>
+          </div>
+        )}
         <div className="card">
           <div className="row">
             <span style={{ fontSize: '2rem' }}>{subjectIcon(scan.subject)}</span>

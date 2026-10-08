@@ -72,7 +72,7 @@ export default function BoundaryWalker({ initial = [], onSave, allowPoint = true
       </div>
 
       <label className="row mt small" style={{ cursor: 'pointer' }}>
-        <input type="checkbox" checked={auto} onChange={(e) => setAuto(e.target.checked)} style={{ width: 20, height: 20, accentColor: '#1F6B3A' }} />
+        <input type="checkbox" checked={auto} onChange={(e) => setAuto(e.target.checked)} style={{ width: 20, height: 20, accentColor: 'var(--green)' }} />
         Add points automatically while I walk
       </label>
 

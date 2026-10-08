@@ -140,7 +140,24 @@ export function Toggle({ on, onChange, label, hint }: { on: boolean; onChange: (
         <div style={{ fontWeight: 600 }}>{label}</div>
         {hint && <div className="small muted">{hint}</div>}
       </div>
-      <input type="checkbox" checked={on} onChange={(e) => onChange(e.target.checked)} style={{ width: 24, height: 24, accentColor: '#1F6B3A' }} />
+      <input type="checkbox" checked={on} onChange={(e) => onChange(e.target.checked)} style={{ width: 24, height: 24, accentColor: 'var(--green)' }} />
     </label>
   );
+}
+
+export function Stars({ value, size = 14, onPick }: { value: number; size?: number; onPick?: (n: number) => void }) {
+  return (
+    <span className="stars" aria-label={`${value.toFixed(1)} out of 5 stars`}>
+      {[1, 2, 3, 4, 5].map((n) => (
+        <span key={n} className={n <= Math.round(value) ? '' : 'off'} style={{ fontSize: size, cursor: onPick ? 'pointer' : undefined, padding: onPick ? '0 3px' : 0 }}
+          onClick={onPick ? () => onPick(n) : undefined} role={onPick ? 'button' : undefined} aria-label={onPick ? `${n} star${n > 1 ? 's' : ''}` : undefined}>★</span>
+      ))}
+    </span>
+  );
+}
+
+export function Seal({ status }: { status: 'verified' | 'scheduled' | 'unverified' | 'requested' | 'none' }) {
+  if (status === 'verified') return <span className="seal">✓ Verified by Kungula</span>;
+  if (status === 'scheduled' || status === 'requested') return <span className="seal pending">⏳ Visit booked</span>;
+  return <span className="seal none">Not yet verified</span>;
 }
