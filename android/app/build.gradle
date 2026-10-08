@@ -9,7 +9,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         // CI sets KUNGULA_BUILD to the GitHub run number so every APK can update the last one
         versionCode Integer.parseInt(System.getenv("KUNGULA_BUILD") ?: "1")
-        versionName "1.0." + (System.getenv("KUNGULA_BUILD") ?: "0")
+        versionName "1.1." + (System.getenv("KUNGULA_BUILD") ?: "0")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.

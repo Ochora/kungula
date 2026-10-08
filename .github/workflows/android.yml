@@ -73,7 +73,7 @@ jobs:
       - name: Name the APK
         run: |
           mkdir -p out
-          cp android/app/build/outputs/apk/release/app-release.apk out/kungula-v1.0.${{ github.run_number }}.apk
+          cp android/app/build/outputs/apk/release/app-release.apk out/kungula-v1.1.${{ github.run_number }}.apk
           ls -la out
 
       - uses: actions/upload-artifact@v4
@@ -85,11 +85,11 @@ jobs:
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.0.${{ github.run_number }}
-          name: Kungula v1.0.${{ github.run_number }}
+          tag_name: v1.1.${{ github.run_number }}
+          name: Kungula v1.1.${{ github.run_number }}
           make_latest: true
           files: out/*.apk
           body: |
             Android APK for Kungula, built from ${{ github.sha }}.
-            **Install:** download `kungula-v1.0.${{ github.run_number }}.apk` on your Android phone, open it, and allow "Install unknown apps" for your browser or Files app when asked.
+            **Install:** download `kungula-v1.1.${{ github.run_number }}.apk` on your Android phone, open it, and allow "Install unknown apps" for your browser or Files app when asked.
             Updates install over the previous version and keep your data.
